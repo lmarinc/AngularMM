@@ -1,31 +1,22 @@
-<div style="margin: 20px;">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Lista de Elementos</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>Nuevo Elemento</mat-label>
-          <input
-            matInput
-            [(ngModel)]="newItem"
-            placeholder="Escribe algo..."
-            (keyup)="handleKeyUp($event)">
-        </mat-form-field>
-        <button mat-raised-button (click)="addItem()">Agregar</button>
-      </div>
-      <!-- Botón para expandir o colapsar -->
-      <button mat-raised-button (click)="toggleExpand()">
-        {{ isExpanded ? 'Colapsar Lista' : 'Expandir Lista' }}
-      </button>
+<mat-card>
+  <mat-card-title>Lista de Tareas</mat-card-title>
+  <mat-card-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Añadir nuevo ítem</mat-label>
+      <input matInput [(ngModel)]="newItem" (keyup)="handleKeyUp($event)">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="addItem()">Agregar</button>
+    <button mat-raised-button (click)="toggleExpand()">
+      {{ isExpanded ? 'Ocultar Lista' : 'Mostrar Lista' }}
+    </button>
 
-
-      <div [@expandCollapse]="isExpanded ? 'expanded' : 'collapsed'">
-        <mat-list>
-          <mat-list-item *ngFor="let item of items">{{ item }}</mat-list-item>
-        </mat-list>
-      </div>
-    </mat-card-content>
-  </mat-card>
-</div>
+    <div *ngIf="isExpanded" [@expandCollapse]="'expanded'">
+      <mat-list>
+        <mat-list-item *ngFor="let item of items; let i = index">
+          {{ item }}
+          <button mat-button color="warn" (click)="removeItem(i)">Eliminar</button>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </mat-card-content>
+</mat-card>
