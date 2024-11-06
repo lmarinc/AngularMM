@@ -1,0 +1,8 @@
+<div>
+  <button mat-raised-button (click)="toggleVisibility()">Toggle Lista</button>
+
+  <div *ngIf="isVisible" @fadeInOut>
+    <app-lista></app-lista>
+  </div>
+</div>
+

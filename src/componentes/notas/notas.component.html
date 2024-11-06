@@ -1,0 +1,60 @@
+<div class="flex justify-center mt-10">
+  <div class="w-full max-w-3xl bg-white shadow-lg rounded-lg p-6">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-800 text-center">Sistema de Notas</h2>
+
+    <!-- Formulario de añadir estudiante en una fila -->
+    <form class="flex flex-col md:flex-row md:space-x-4 mb-6 justify-left">
+      <mat-form-field appearance="fill" class="max-2xl mb-2 md:mb-0">
+        <mat-label>Nombre</mat-label>
+        <input matInput [(ngModel)]="nuevoNombreEstudiante" name="nombreEstudiante" placeholder="Nombre del estudiante" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full mb-2 md:mb-0">
+        <mat-label>Nota</mat-label>
+        <input matInput type="number" [(ngModel)]="nuevaNotaEstudiante" name="notaEstudiante" placeholder="0-10" min="0" max="10" />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="agregarEstudiante()" class="max-2xl mt-2 md:mt-0 md:items-center">
+        Añadir
+      </button>
+    </form>
+
+    <!-- Filtro de búsqueda -->
+    <div class="flex flex-col sm:flex-row sm:gap-4 mb-8 justify-left" >
+      <mat-form-field appearance="fill" class="w-full mb-2 sm:mb-0">
+        <mat-label>Buscar por nombre</mat-label>
+        <input matInput [(ngModel)]="filtroNombre" name="filtroNombre" placeholder="Nombre del estudiante" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="w-full mb-2  sm:mb-0">
+        <mat-label>Filtrar por estado</mat-label>
+        <mat-select [(ngModel)]="filtroEstado" name="filtroEstado">
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="Aprobado">Aprobado</mat-option>
+          <mat-option value="Suspenso">Suspenso</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Tabla de estudiantes -->
+    <table mat-table [dataSource]="estudiantesFiltrados" class="w-full bg-white shadow-md rounded-lg mt-6">
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-left"> Nombre </th>
+        <td mat-cell *matCellDef="let estudiante" class="px-4 py-2 text-left"> {{ estudiante.nombre }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nota">
+        <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-center"> Nota </th>
+        <td mat-cell *matCellDef="let estudiante" class="px-4 py-2 text-center"> {{ estudiante.nota }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef class="px-4 py-2 text-center"> Estado </th>
+        <td mat-cell *matCellDef="let estudiante" class="px-4 py-2 text-center"> {{ obtenerEstado(estudiante.nota) }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnasMostradas" class="bg-gray-200"></tr>
+      <tr mat-row *matRowDef="let fila; columns: columnasMostradas;"></tr>
+    </table>
+  </div>
+</div>

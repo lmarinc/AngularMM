@@ -1,0 +1,42 @@
+<div class="p-4">
+  <h2 class="text-xl font-bold mb-4">Calculadora de Compras</h2>
+
+  <!-- Formulario para añadir productos -->
+  <form [formGroup]="compraForm" (ngSubmit)="agregarProducto()" class="space-y-4">
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Nombre del producto</mat-label>
+      <input matInput formControlName="nombre" placeholder="Ejemplo: Manzanas">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Precio</mat-label>
+      <input matInput type="number" formControlName="precio" placeholder="Ejemplo: 1.5">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Cantidad</mat-label>
+      <input matInput type="number" formControlName="cantidad" placeholder="Ejemplo: 2">
+    </mat-form-field>
+
+    <div class="flex gap-4">
+      <button mat-raised-button color="primary" type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+        Agregar Producto
+      </button>
+      <button mat-button color="warn" type="button" (click)="reiniciarFormulario()" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded">
+        Reiniciar
+      </button>
+    </div>
+  </form>
+
+  <!-- Lista de productos añadidos -->
+  <mat-list class="mt-4">
+    <mat-list-item *ngFor="let producto of productos">
+      {{ producto.nombre }} - Precio: {{ producto.precio | currency:'EUR' }} - Cantidad: {{ producto.cantidad }} - Subtotal: {{ producto.precio * producto.cantidad | currency:'EUR' }}
+    </mat-list-item>
+  </mat-list>
+
+  <!-- Total de la compra -->
+  <div class="mt-6 font-bold text-lg">
+    Total de la compra: {{ total | currency:'EUR' }}
+  </div>
+</div>

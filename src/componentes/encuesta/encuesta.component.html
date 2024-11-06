@@ -1,0 +1,45 @@
+<div class="p-6">
+  <h2 class="text-2xl font-bold mb-6">Encuesta Interactiva</h2>
+
+  <div *ngFor="let pregunta of preguntas" class="mb-6">
+    <legend class="text-lg font-semibold">{{ pregunta.texto }}</legend>
+    <mat-radio-group
+      [(ngModel)]="respuestas[pregunta.id]"
+      (change)="seleccionarRespuesta(pregunta.id, respuestas[pregunta.id])"
+      class="flex flex-col gap-2 mt-2"
+    >
+      <mat-radio-button *ngFor="let opcion of pregunta.opciones" [value]="opcion" class="text-sm">
+        {{ opcion }}
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div class="flex gap-4">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="mostrarRespuestas()"
+      class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+    >
+      Mostrar Respuestas
+    </button>
+    <button
+      mat-button
+      color="warn"
+      (click)="reiniciarEncuesta()"
+      class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+    >
+      Reiniciar
+    </button>
+  </div>
+
+  <!-- Resumen de respuestas -->
+  <mat-card *ngIf="mostrarResumen" class="mt-6 p-4 border border-gray-300 rounded-lg">
+    <h3 class="text-xl font-bold mb-4">Resumen de Respuestas</h3>
+    <ul class="list-disc list-inside">
+      <li *ngFor="let pregunta of preguntas" class="mb-2">
+        <strong>{{ pregunta.texto }}:</strong> {{ respuestas[pregunta.id] || 'No respondida' }}
+      </li>
+    </ul>
+  </mat-card>
+</div>

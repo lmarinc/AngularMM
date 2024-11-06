@@ -1,0 +1,80 @@
+<div class="p-4">
+  <mat-form-field appearance="fill" class="mb-4 w-full">
+    <mat-label>Agregar nueva tarea</mat-label>
+    <input matInput [(ngModel)]="nuevaTarea" placeholder="Escribe tu tarea aquí">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="agregarTarea()">Agregar Tarea</button>
+
+  <!-- Contenedor centralizado para las listas de tareas -->
+  <div class="flex flex-col items-center mt-4">
+    <div class="flex gap-4 w-full justify-center">
+      <!-- Lista de Tareas Pendientes -->
+      <div
+        cdkDropList
+        id="pendientes"
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListData]="tareasPendientes"
+        [cdkDropListConnectedTo]="['enProgreso', 'completadas', 'eliminar']"
+        class="bg-gray-100 rounded p-4 w-1/3 min-h-[300px]">
+        <h2 class="font-bold text-lg">Pendientes</h2>
+        <div *ngFor="let tarea of tareasPendientes" cdkDrag
+             (cdkDragStarted)="startDragging()"
+             (cdkDragEnded)="stopDragging()"
+             class="mb-2">
+          <mat-card cdkDragHandle>
+            <mat-card-content>{{ tarea }}</mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Lista de Tareas en Progreso -->
+      <div
+        cdkDropList
+        id="enProgreso"
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListData]="tareasEnProgreso"
+        [cdkDropListConnectedTo]="['pendientes', 'completadas', 'eliminar']"
+        class="bg-gray-100 rounded p-4 w-1/3 min-h-[300px]">
+        <h2 class="font-bold text-lg">En Progreso</h2>
+        <div *ngFor="let tarea of tareasEnProgreso" cdkDrag
+             (cdkDragStarted)="startDragging()"
+             (cdkDragEnded)="stopDragging()"
+             class="mb-2">
+          <mat-card cdkDragHandle>
+            <mat-card-content>{{ tarea }}</mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Lista de Tareas Completadas -->
+      <div
+        cdkDropList
+        id="completadas"
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListData]="tareasCompletadas"
+        [cdkDropListConnectedTo]="['pendientes', 'enProgreso', 'eliminar']"
+        class="bg-gray-100 rounded p-4 w-1/3 min-h-[300px]">
+        <h2 class="font-bold text-lg">Completadas</h2>
+        <div *ngFor="let tarea of tareasCompletadas" cdkDrag
+             (cdkDragStarted)="startDragging()"
+             (cdkDragEnded)="stopDragging()"
+             class="mb-2">
+          <mat-card cdkDragHandle>
+            <mat-card-content>{{ tarea }}</mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+
+    <!-- Icono de Basura para Eliminar -->
+    <div cdkDropList
+         id="eliminar"
+         (cdkDropListDropped)="drop($event)"
+         [cdkDropListConnectedTo]="['pendientes', 'enProgreso', 'completadas']"
+         [ngClass]="{'hidden': !isDragging}"
+         class="flex flex-col items-center mt-4">
+      <mat-icon fontIcon="delete" class="text-red-600 text-8xl mb-2">delete</mat-icon>
+      <p class="text-center text-red-600 text-lg">Soltar aquí para eliminar</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="p-4">
+  <!-- Barra de búsqueda -->
+  <mat-form-field appearance="fill" class="w-full mb-4">
+    <mat-label>Buscar imágenes</mat-label>
+    <input matInput [(ngModel)]="searchText" placeholder="Buscar por descripción" (input)="filterImages()" />
+  </mat-form-field>
+
+  <!-- Galería de imágenes -->
+  <mat-grid-list cols="3" rowHeight="16:9" class="gap-4 mb-4">
+    <mat-grid-tile *ngFor="let image of filteredImages" (click)="openDialog(image)" class="relative">
+      <div class="flex flex-col h-full">
+        <img [src]="image.src" alt="Galería de imágenes" class="w-full h-3/4 object-cover rounded-lg" />
+        <mat-grid-tile-footer class="bg-black bg-opacity-50 text-white p-2 text-center h-1/4 flex items-center justify-center">
+          <h3 class="text-sm">{{ image.description }}</h3>
+        </mat-grid-tile-footer>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <!-- Formulario para añadir nueva imagen -->
+  <div class="flex flex-col space-y-4">
+    <div class="flex space-x-4">
+      <mat-form-field appearance="fill" class="flex-1">
+        <mat-label>URL de la imagen</mat-label>
+        <input matInput [(ngModel)]="defaultImageUrl" placeholder="assets/gallery/new-image.jpg" />
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="flex-1">
+        <mat-label>Descripción de la imagen</mat-label>
+        <input matInput [(ngModel)]="newImageDescription" placeholder="Descripción" />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" (click)="addImage()">Añadir Imagen</button>
+  </div>
+</div>
